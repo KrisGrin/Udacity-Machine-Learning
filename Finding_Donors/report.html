@@ -11819,7 +11819,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[75]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.core.display</span> <span class="kn">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">HTML</span>
@@ -11969,7 +11969,7 @@ max       90.000000      16.000000  99999.000000   4356.000000       99.000000
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[49]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># TODO: Total number of records</span>
@@ -11982,7 +11982,7 @@ max       90.000000      16.000000  99999.000000   4356.000000       99.000000
 <span class="n">n_at_most_50k</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">income</span><span class="o">==</span><span class="s1">&#39;&lt;=50K&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">income</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
 
 <span class="c1"># TODO: Percentage of individuals whose income is more than $50,000</span>
-<span class="n">greater_percent</span> <span class="o">=</span> <span class="n">n_greater_50k</span><span class="o">*</span><span class="mi">100</span><span class="o">/</span><span class="n">n_records</span>
+<span class="n">greater_percent</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">n_greater_50k</span><span class="o">*</span><span class="mi">100</span><span class="p">)</span><span class="o">/</span><span class="n">n_records</span>
 
 <span class="c1"># Print the results</span>
 <span class="k">print</span> <span class="s2">&quot;Total number of records: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n_records</span><span class="p">)</span>
@@ -12006,7 +12006,7 @@ max       90.000000      16.000000  99999.000000   4356.000000       99.000000
 <pre>Total number of records: 45222
 Individuals making more than $50,000: 11208
 Individuals making at most $50,000: 34014
-Percentage of individuals making more than $50,000: 24.00%
+Percentage of individuals making more than $50,000: 24.78%
 </pre>
 </div>
 </div>
@@ -14222,9 +14222,11 @@ Look at the graph at the bottom left from the cell above(the visualization creat
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer: </strong></p>
 <p>** Note: not using external sources, relying solely on class lectures and notes that I've taken.</p>
-<p>Gradient boosting is a type of ensemble learner, which basically means that the model works by combining multiple "weak" learning hypotheses to create a stronger model. Weak learners are models that are at the very least slightly better than chance, and label data slightly better than random guessing. By combining these weak learner models (through some form of averaging), we are averaging out all the variances and differences in the data and creating a stronger model that is less likely to overfit. The combination of all of these independent weak learning hypotheses what makes the model more capable of predicting accurately on unseen data than each of the individual hypothesis would.</p>
-<p>The model is training iteratively, with each iteration the model will classify the training data better than chance. With each iteration, the data points that were not classified correctly gain more importance in the overall model (or the weight is increased), while the importance of the correct classifications get reduced. Thus, with each iteration the model focuses on the "harder examples, improving its accuracy with each iteration. The number of iterations can be customized in order to find the set of weighted hypotheses that when combined will perform best on unseen data.</p>
-<p>The model makes predictions in the very similar manner it was trained, by using the weak hypotheses on which it was trained on to develop predictions. These predictions are then weighted to arrive at a single prediction.</p>
+<p>Gradient boosting is a type of ensemble model, which basically means that the model works by combining multiple models that the very least are better at predicting than by random guessing. By doing so, we are able to create a stronger model that is less likely to mistake the noise in the data for a signal. This means that compared to a single un-ensembled model, the ensembled model is more capable of predicting accurately on data is has never seen before.</p>
+<p>So, how does the model do this? By using different iterations of your initial model. With each iteration the model will classify the data by splitting it (like a ninja!), the split will identify two areas: one where all the people earn less than 50K (red area in the graphs below) and another where everyone earns more than 50K (blue area in the graphs below). Next, the model will measure the accuracey of our prediction, by calculating which points actually belong to thier area (blue pluses should go with the blue area and red minus should go with the red area). But, what's next? For simplicity's sake let's assume that we are iterationing only three time, and the results of the first model run are on the left of the image below.</p>
+<p><img src="attachment:image.png" alt="image.png"></p>
+<p>In the first run, 2 blue pluses were classified correctly while 3 blue pluses were not (as they reside in the red area). In the second model run, the points that were not classified correctly gain more importance in the overall model (or their weights is increase), this we can see visually by the blue pluses that were previously not classified correctly growing in size as their weight increases. At the same time, the importance of the correct classifications get reduced (notice how smaller the correctly classified pluses are in this iteration). Thus, with each iteration the model focuses on the "harder examples", improving its accuracy with each iteration. The number of iterations can be customized in order to find the set of weighted models that when combined will perform best on unseen data.</p>
+<p>Once it is all said and done, we have a well trained model that is able to cut and slice data more efficiently, making predictions that focus more on the signal and less on the noise within the data.</p>
 
 </div>
 </div>
